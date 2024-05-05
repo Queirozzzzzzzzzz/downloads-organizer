@@ -5,22 +5,28 @@ from attributes import FILE_EXTENSIONS, DESTINATION_FOLDERS, DOWNLOADS_FOLDER
 for folder_name, folder_path in DESTINATION_FOLDERS.items():
     folder_path.mkdir(parents=True, exist_ok=True)
 
+from pathlib import Path
+import time
+
 def organize_files(folder_path):
     for item in folder_path.iterdir():
+        destination = None
         if item.is_dir():
             if item.name not in (folder.name for folder in DESTINATION_FOLDERS.values()):
-                item.rename(DESTINATION_FOLDERS['Folders'] / item.name)
-                break
-
-        if item.is_file():
-            moved = False
+                destination = DESTINATION_FOLDERS['Folders']
+        elif item.is_file():
             for category, extensions in FILE_EXTENSIONS.items():
                 if item.suffix in extensions:
-                    item.rename(DESTINATION_FOLDERS[category] / item.name)
-                    moved = True
+                    destination = DESTINATION_FOLDERS[category]
                     break
-            if not moved:
-                item.rename(DESTINATION_FOLDERS['Others'] / item.name)
+            if destination is None:
+                destination = DESTINATION_FOLDERS['Others']
+
+        if destination:
+            try:
+                item.rename(destination / item.name)
+            except FileExistsError:
+                print(f"Couldn't move {item.name} because its name already exists at the destination.")
 
 def scan_folders():
     organize_files(DOWNLOADS_FOLDER)
