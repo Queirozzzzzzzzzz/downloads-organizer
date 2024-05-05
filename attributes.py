@@ -20,6 +20,7 @@ DESTINATION_FOLDERS = {
     'Programs': Path.home() / "Downloads" / "Programs",
     'Programming': Path.home() / "Downloads" / "Programming",
     '3D': Path.home() / "Downloads" / "3D",
+    'Folders': Path.home() / "Downloads" / "Folders",
     'Others': Path.home() / "Downloads" / "Others"
 }
 
