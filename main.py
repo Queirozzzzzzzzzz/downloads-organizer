@@ -15,11 +15,12 @@ def organize_files(folder_path):
             if item.name not in (folder.name for folder in DESTINATION_FOLDERS.values()):
                 destination = DESTINATION_FOLDERS['Folders']
         elif item.is_file():
+
             for category, extensions in FILE_EXTENSIONS.items():
                 if item.suffix in extensions:
                     destination = DESTINATION_FOLDERS[category]
                     break
-            if destination is None:
+            if destination is None and item.suffix != '.tmp':
                 destination = DESTINATION_FOLDERS['Others']
 
         if destination:
