@@ -35,11 +35,4 @@ def scan_folders():
     for folder_name, folder_path in DESTINATION_FOLDERS.items():
         organize_files(folder_path)
 
-# Check for new downloads
-while True:
-    try:
-        scan_folders()
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-    time.sleep(5)
+scan_folders()
